@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Más información | Veltri Health</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="logo-mark">V</span>Veltri Health</div>
+  <a class="nav-cta" href="index.html">Volver al inicio</a>
+</nav>
+
+<section class="section">
+  <div class="section-head">
+    <span class="eyebrow">Vista previa</span>
+    <h2>Así funcionará Veltri Health</h2>
+    <p>
+      Estas interfaces muestran cómo el usuario podrá iniciar sesión, revisar su progreso,
+      escanear su comida con IA y calcular sus calorías automáticamente.
+    </p>
+  </div>
+
+  <div class="app-preview-grid">
+
+    <div class="preview-card">
+      <img src="img/login.png" alt="Pantalla de inicio de sesión Veltri Health" onclick="openImage(this.src)">
+      <h3>Inicio de sesión</h3>
+      <p>
+        El usuario puede ingresar rápidamente con Google, Apple o correo electrónico.
+      </p>
+    </div>
+
+    <div class="preview-card">
+      <img src="img/dashboard.png" alt="Dashboard de Veltri Health" onclick="openImage(this.src)">
+      <h3>Panel principal</h3>
+      <p>
+        Muestra el progreso diario, calorías consumidas, proteína, agua y accesos rápidos.
+      </p>
+    </div>
+
+    <div class="preview-card">
+      <img src="img/calorias.png" alt="Pantalla de cálculo de calorías con IA" onclick="openImage(this.src)">
+      <h3>Cálculo de calorías con IA</h3>
+      <p>
+        El usuario sube o toma una foto, y la app identifica el alimento y estima sus calorías.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="demo-action">
+    <a class="btn-primary" href="index.html#offer">Ver oferta de Beta Fundadores</a>
+  </div>
+</section>
+
+<div class="image-modal" id="imageModal" onclick="closeImage()">
+  <span class="image-close">✕</span>
+  <img id="expandedImage" src="" alt="Imagen ampliada">
+</div>
+
+<script>
+  function openImage(src){
+    document.getElementById("expandedImage").src = src;
+    document.getElementById("imageModal").classList.add("active");
+  }
+
+  function closeImage(){
+    document.getElementById("imageModal").classList.remove("active");
+  }
+</script>
+</body>
+</html>

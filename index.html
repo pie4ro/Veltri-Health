@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veltri Health</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="logo-mark">V</span>Veltri Health</div>
+  <button class="nav-cta" onclick="registrarClick('beta_nav'); openModal();">
+    Únete a la Beta Fundadores
+  </button>
+</nav>
+
+<header class="hero">
+  <div>
+    <span class="eyebrow"><span class="dot"></span> Beta Fundadores · Cupos limitados</span>
+    <h1>Come sano, ahorra tiempo<br>y gasta <em>menos</em>.</h1>
+    <p class="sub">Sube una foto de tu comida. Nuestro Deep Agent calcula tus calorías y te arma la lista de compras más barata en los supermercados de tu zona.</p>
+    <div class="cta-row">
+      <a class="btn-primary" href="demo.html" onclick="registrarClick('mas_informacion')">
+  Más información
+</a>
+</div>
+    <p class="micro-note" style="margin-top:14px;">Cancela cuando quieras. Tu suscripción se ahorra sola en compras.</p>
+    <div class="social-proof">
+      <div class="avatars"><span></span><span></span><span></span><span></span></div>
+      <span>+1,200 personas ya están en la cola de espera</span>
+    </div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="ph-top">
+          <div>
+            <div class="ph-greet">Hoy, miércoles</div>
+            <div class="ph-name">Progreso de hoy</div>
+          </div>
+          <div class="ph-avatar"></div>
+        </div>
+        <div class="ring-wrap">
+          <div class="ring">
+            <div class="ring-inner">
+              <div class="num">1,420</div>
+              <div class="lbl">kcal</div>
+            </div>
+          </div>
+          <div class="ring-caption">70% de tu meta diaria</div>
+        </div>
+        <button class="scan-btn">
+          <span class="ic">📷</span>
+          <span>
+            Calcular calorías<br>
+            <span class="scan-sub">Sube una foto y detectamos el alimento</span>
+          </span>
+        </button>
+      </div>
+      <div class="float-card f1"><span class="check">✓</span> Pechuga a la plancha · 320 kcal</div>
+      <div class="float-card f2"><span class="check">✓</span> Ahorraste S/18 hoy</div>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="how">
+  <div class="section-head">
+    <span class="eyebrow">Cómo funciona</span>
+    <h2>De la foto al ahorro, en tres pasos</h2>
+    <p>Diseñado para que comer bien deje de tomarte tiempo y dinero extra.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="si">1</div>
+      <h3>Fotografía tu plato</h3>
+      <p>Apunta la cámara a tu comida. El Deep Agent reconoce el alimento y la porción automáticamente.</p>
+    </div>
+    <div class="step">
+      <div class="si">2</div>
+      <h3>Recibe tus calorías</h3>
+      <p>Desglose nutricional al instante, sin anotar nada manualmente ni buscar en tablas.</p>
+    </div>
+    <div class="step">
+      <div class="si">3</div>
+      <h3>Compra más barato</h3>
+      <p>Generamos tu lista de compras con los precios más bajos en los supermercados de tu zona.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="offer">
+  <div class="offer">
+    <div>
+      <h2>Sé parte de los primeros 500 Fundadores</h2>
+      <p>Reserva tu lugar en la Beta Fundadores de Veltri Health y bloquea el precio de lanzamiento antes que nadie.</p>
+      <ul>
+        <li><span class="check">✓</span> Precio Fundador de por vida: S/15/mes</li>
+        <li><span class="check">✓</span> Acceso prioritario cuando lancemos</li>
+        <li><span class="check">✓</span> Tu opinión define las próximas funciones</li>
+      </ul>
+    </div>
+    <div class="offer-card">
+      <div class="offer-price">S/15<span class="offer-price-unit">/mes</span></div>
+      <div class="offer-price-note"></div>
+      <button class="btn-primary" onclick="registrarClick('beta_precio'); openModal();">
+  Únete a la Beta Fundadores
+</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 Veltri Health</div>
+  <div>Hecho en Trujillo, Perú</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- STEP 1: FORM -->
+    <div id="formStep">
+      <div class="modal-icon">✉</div>
+      <h3>Reserva tu acceso · S/15/mes</h3>
+      <p class="modal-sub">Déjanos tu correo para asegurar tu cupo en la Beta Fundadores. Te contactaremos para confirmar el pago antes del lanzamiento.</p>
+      <label class="field-label" for="emailInput">Correo electrónico</label>
+      <input class="field-input" type="email" id="emailInput" placeholder="tucorreo@ejemplo.com">
+      <div class="field-error" id="emailError"></div>
+      <button class="btn-primary" onclick="submitEmail()">Confirmar mi cupo · S/15/mes</button>
+      <p class="modal-fine">Sin cobro inmediato. Te avisaremos por correo cuando tu acceso esté listo.</p>
+    </div>
+
+    <!-- STEP 2: SUCCESS -->
+    <div id="successStep" class="hidden">
+      <div class="success-icon-wrap">
+        <div class="success-ring">✓</div>
+      </div>
+      <div class="queue-pill">👤 Posición #<span id="queueNum">1,248</span> en la cola</div>
+      <div class="success-title">¡Registro exitoso!</div>
+      <div class="success-sub">Has reservado tu cupo en la Beta Fundadores (S/15/mes). Te notificaremos al correo cuando tu acceso esté listo.</div>
+      <button class="btn-primary" onclick="closeModal()">Entendido</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+</body>
+</html>
