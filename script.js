@@ -9,8 +9,11 @@ const overlay = document.getElementById('modalOverlay');
   const emailInput = document.getElementById('emailInput');
   const emailError = document.getElementById('emailError');
   const queueNum = document.getElementById('queueNum');
+  let botonPendiente = null;
 
-  function openModal(){
+  function openModal(nombreBoton = null){
+    botonPendiente = nombreBoton;
+
     overlay.classList.add('active');
     formStep.classList.remove('hidden');
     successStep.classList.add('hidden');
@@ -52,7 +55,7 @@ async function submitEmail(){
     return;
   }
 
-  await registrarClick('registro_correo');
+  await registrarClick(botonPendiente || 'registro_correo', val);
 
   const pos = 1200 + Math.floor(Math.random() * 90);
   queueNum.textContent = pos.toLocaleString('es-PE');
@@ -61,13 +64,14 @@ async function submitEmail(){
   successStep.classList.remove('hidden');
 }
 
-async function registrarClick(nombreBoton){
+async function registrarClick(nombreBoton, email){
   const { error } = await supabaseClient
     .from('eventos_clicks')
     .insert([
       {
         boton: nombreBoton,
-        pagina: window.location.pathname
+        pagina: window.location.pathname,
+        email: email
       }
     ]);
 
