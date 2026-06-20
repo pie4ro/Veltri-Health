@@ -10,16 +10,18 @@ const overlay = document.getElementById('modalOverlay');
   const emailError = document.getElementById('emailError');
   const queueNum = document.getElementById('queueNum');
   let botonPendiente = null;
+  let destinoPendiente = null;
 
-  function openModal(nombreBoton = null){
-    botonPendiente = nombreBoton;
+function openModal(nombreBoton = null, destino = null){
+  botonPendiente = nombreBoton;
+  destinoPendiente = destino;
 
-    overlay.classList.add('active');
-    formStep.classList.remove('hidden');
-    successStep.classList.add('hidden');
-    emailInput.value = '';
-    emailError.textContent = '';
-  }
+  overlay.classList.add('active');
+  formStep.classList.remove('hidden');
+  successStep.classList.add('hidden');
+  emailInput.value = '';
+  emailError.textContent = '';
+}
   function closeModal(){
     overlay.classList.remove('active');
   }
@@ -45,13 +47,10 @@ async function submitEmail(){
       { email: val }
     ]);
 
-  if(error){
-    if(error.code === "23505"){
-      emailError.textContent = 'Este correo ya fue registrado.';
-    } else {
-      emailError.textContent = 'No se pudo registrar el correo. Intenta nuevamente.';
-      console.error(error);
-    }
+  // Si el correo ya existe, igual dejamos guardar el clic
+  if(error && error.code !== "23505"){
+    emailError.textContent = 'No se pudo registrar el correo. Intenta nuevamente.';
+    console.error(error);
     return;
   }
 
@@ -62,6 +61,12 @@ async function submitEmail(){
 
   formStep.classList.add('hidden');
   successStep.classList.remove('hidden');
+
+  if(destinoPendiente){
+    setTimeout(() => {
+      window.location.href = destinoPendiente;
+    }, 1200);
+  }
 }
 
 async function registrarClick(nombreBoton, email){

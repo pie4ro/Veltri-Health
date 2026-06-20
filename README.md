@@ -1,22 +1,87 @@
-# Veltri Health - Landing Page & Waitlist
+# Veltri Health - Landing Page & Validación de Beta
 
-Veltri Health es una plataforma diseñada para ayudar a los usuarios a mejorar su nutrición optimizando su presupuesto y tiempo. Mediante el uso de un *Deep Agent*, la aplicación permite escanear platos de comida para calcular calorías y generar listas de compras económicas en supermercados locales.
+Veltri Health es una propuesta FoodTech orientada a ayudar a los usuarios a mejorar su alimentación, ahorrar tiempo y reducir gastos en compras saludables. La solución plantea el uso de inteligencia artificial para reconocer alimentos mediante fotos, calcular calorías aproximadas y apoyar al usuario en la toma de mejores decisiones nutricionales y económicas.
 
-Este repositorio contiene el código de la landing page promocional y el sistema de captura de leads para la "Beta Fundadores", desarrollado como parte de las iniciativas de **Customer Development**.
+Este repositorio contiene una landing page desarrollada como parte del proceso de Customer Development, con el objetivo de validar el interés real de los usuarios mediante una oferta concreta, una vista previa del prototipo y un sistema de registro para la Beta Fundadores.
 
-## 🚀 Características Principales
-* **Landing Page Responsiva:** Interfaz moderna y atractiva para la captación de usuarios tempranos (UI/UX en modo oscuro con acentos verdes).
-* **Sistema de Registro (Waitlist):** Modal interactivo para asegurar cupos en la Beta Fundadores, con simulación de posición en cola.
-* **Tracking de Eventos:** Seguimiento de clics en botones estratégicos (ej. `beta_nav`, `mas_informacion`, `registro_correo`) para análisis de conversión.
-* **Integración Backend:** Conexión directa con Supabase para almacenamiento de leads y analíticas.
+## Descripción del proyecto
 
-## 🛠️ Tecnologías Utilizadas
-* **Frontend:** HTML5, CSS3 (Variables CSS, Grid, Flexbox), JavaScript (Vanilla).
-* **Backend (BaaS):** Supabase (PostgreSQL, Row Level Security).
-* **Infraestructura:** Entorno AWS (us-west-2).
+La landing page presenta la propuesta de valor de Veltri Health:
 
-## 🗄️ Esquema de Base de Datos
-El proyecto utiliza políticas RLS (Row Level Security) en Supabase para permitir inserciones públicas de forma segura directamente desde el cliente:
+> “Come sano, ahorra tiempo y gasta menos.”
+
+El usuario puede conocer la propuesta, revisar cómo funcionará la aplicación y registrarse como parte de la Beta Fundadores. Además, el proyecto registra eventos importantes para medir interés, intención de compra y compromiso inicial.
+
+## Funcionalidades principales
+
+* Landing page responsiva para presentar la propuesta de valor.
+* Botón “Más información” que dirige a una página de vista previa del prototipo.
+* Página `demo.html` con interfaces simuladas de la aplicación.
+* Modal de registro para la Beta Fundadores.
+* Registro de correos en Supabase.
+* Seguimiento de clics en botones importantes.
+* Medición de interés mediante eventos como:
+
+  * Clic en “Más información”.
+  * Clic en “Únete a la Beta Fundadores”.
+  * Registro de correo en la lista de espera.
+
+## Estructura del proyecto
+
+```text
+Veltri-Health/
+│
+├── index.html          # Landing page principal
+├── demo.html           # Página con vista previa de interfaces
+├── styles.css          # Estilos del sitio
+├── script.js           # Lógica de modal, registro y conexión con Supabase
+├── README.md           # Documentación del proyecto
+│
+└── img/
+    ├── login.png       # Interfaz de inicio de sesión
+    ├── dashboard.png   # Interfaz del panel principal
+    └── calorias.png    # Interfaz de cálculo de calorías
+```
+
+## Páginas del proyecto
+
+### `index.html`
+
+Es la página principal del proyecto. Presenta la propuesta de valor, explica cómo funciona Veltri Health y muestra la oferta de la Beta Fundadores.
+
+Incluye botones como:
+
+* “Más información”
+* “Únete a la Beta Fundadores”
+
+### `demo.html`
+
+Es la página de vista previa del prototipo. Muestra tres interfaces principales de la futura aplicación:
+
+1. Inicio de sesión.
+2. Panel principal del usuario.
+3. Cálculo de calorías mediante IA.
+
+Las imágenes pueden ampliarse al hacer clic para visualizar mejor cada interfaz.
+
+## Tecnologías utilizadas
+
+* HTML5
+* CSS3
+* JavaScript
+* Supabase
+* PostgreSQL
+* GitHub Pages
+
+## Integración con Supabase
+
+El proyecto utiliza Supabase como backend para almacenar los datos de validación.
+
+Se manejan dos tablas principales:
+
+### Tabla `beta_registros`
+
+Guarda los correos de las personas interesadas en la Beta Fundadores.
 
 ```sql
 create table if not exists beta_registros (
@@ -24,14 +89,27 @@ create table if not exists beta_registros (
   email text not null unique,
   created_at timestamptz default now()
 );
+```
 
+### Tabla `eventos_clicks`
+
+Guarda los clics realizados en botones importantes de la landing.
+
+```sql
 create table if not exists eventos_clicks (
   id bigint generated by default as identity primary key,
   boton text not null,
   pagina text,
+  email text,
   created_at timestamptz default now()
 );
+```
 
+## Políticas de seguridad en Supabase
+
+Para permitir que la landing pueda insertar datos desde el navegador, se utiliza Row Level Security con políticas de inserción pública.
+
+```sql
 alter table beta_registros enable row level security;
 alter table eventos_clicks enable row level security;
 
@@ -46,3 +124,119 @@ on eventos_clicks
 for insert
 to anon
 with check (true);
+```
+
+## Comportamiento del registro
+
+Cuando el usuario hace clic en “Únete a la Beta Fundadores”, se abre un modal donde puede ingresar su correo electrónico.
+
+Al confirmar el registro:
+
+1. El correo se guarda en la tabla `beta_registros`.
+2. El clic se guarda en la tabla `eventos_clicks`.
+3. El evento queda asociado al correo ingresado.
+4. Se muestra un mensaje de registro exitoso.
+
+## Comportamiento de “Más información”
+
+El botón “Más información” dirige al usuario directamente a la página `demo.html`, donde puede revisar las interfaces del prototipo.
+
+Este clic puede registrarse como evento de interés, aunque no necesariamente queda asociado a un correo si el usuario no se registró antes.
+
+## Consultas SQL útiles
+
+### Ver correos registrados
+
+```sql
+select *
+from beta_registros
+order by created_at desc;
+```
+
+### Ver clics registrados
+
+```sql
+select 
+  id,
+  boton,
+  email,
+  pagina,
+  created_at
+from eventos_clicks
+order by created_at desc;
+```
+
+### Contar clics por botón
+
+```sql
+select 
+  boton,
+  count(*) as total_clicks
+from eventos_clicks
+group by boton
+order by total_clicks desc;
+```
+
+### Contar clics asociados a cada correo
+
+```sql
+select 
+  email,
+  count(*) as total_clicks
+from eventos_clicks
+where email is not null
+group by email
+order by total_clicks desc;
+```
+
+## Objetivo de validación
+
+El objetivo del proyecto es validar si jóvenes y adultos interesados en mejorar su alimentación muestran intención real de compra o compromiso inicial al conocer una solución que combina nutrición, automatización y ahorro económico.
+
+La validación se realiza mediante:
+
+* Número de personas que visitan la landing.
+* Número de clics en “Más información”.
+* Número de clics en “Únete a la Beta Fundadores”.
+* Número de correos registrados.
+* Nivel de compromiso observado en la Beta Fundadores.
+
+## Hipótesis de validación
+
+Los jóvenes profesionales y trabajadores independientes que buscan mejorar su nutrición mostrarán interés en una herramienta que les permita calcular calorías mediante fotos y reducir gastos de supermercado, especialmente si la propuesta se presenta como una Beta Fundadores con precio de lanzamiento.
+
+## Oferta validada
+
+La oferta presentada al usuario es:
+
+> “Únete a la Beta Fundadores por S/11/mes.”
+
+Esta oferta busca medir disposición inicial de pago, interés comercial y nivel de compromiso frente a una solución todavía en etapa de validación.
+
+## Estado del proyecto
+
+El proyecto se encuentra en etapa de validación inicial. Actualmente funciona como una landing page con prototipo visual y sistema de captura de leads mediante Supabase.
+
+## Próximos pasos
+
+* Mejorar la medición de eventos en Supabase.
+* Agregar un panel simple para visualizar métricas.
+* Ampliar la muestra de usuarios contactados.
+* Validar objeciones sobre precisión de calorías y precios.
+* Construir una versión mínima funcional del escaneo de alimentos.
+* Simular la comparación de precios en supermercados locales.
+
+## Autor
+
+Proyecto desarrollado por el equipo de Veltri Health para el curso de Customer Development.
+
+Integrantes:
+
+* Ramirez Castillo Lizeth
+* Trigozo Zárate Thiago Andre
+* Velásquez Góngora Bruno Martín
+* Mendoza Santos Piero Alexis
+
+## Licencia
+
+Este proyecto fue desarrollado con fines académicos y de validación de mercado.
